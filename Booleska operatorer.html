@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booleska operatorer – prova själv</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --ink:#4d0033; --soft:#7a5570; --fill:#ff8870; --line:#e9d9e3; --panel:#fbf4f8; --hit:#ffd9d1;
+  --font:"Kumbh Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#250019;--ink:#fbe6f1;--soft:#c9a3bb;--line:#4a2a40;--panel:#33102a;--hit:#6b2f2a}
+}
+:root[data-theme="dark"]{--bg:#250019;--ink:#fbe6f1;--soft:#c9a3bb;--line:#4a2a40;--panel:#33102a;--hit:#6b2f2a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 20px 56px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.1;margin:0 0 12px;font-weight:800;letter-spacing:-.01em}
+.lede{max-width:60ch;color:var(--soft);margin:0 0 32px}
+b,.op{font-weight:800}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:1fr;gap:28px}}
+.ops{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.ops label{flex:1;min-width:84px}
+.ops input{position:absolute;opacity:0}
+.ops span{display:block;text-align:center;padding:10px 12px;border:2.5px solid var(--ink);border-radius:999px;font-weight:800;cursor:pointer;transition:background .15s}
+.ops input:checked+span{background:var(--fill);color:#4d0033}
+.ops input:focus-visible+span{outline:3px solid var(--fill);outline-offset:2px}
+svg{width:100%;height:auto;display:block;max-height:300px}
+.circ{fill:none;stroke:var(--ink);stroke-width:5}
+.vl{font-family:var(--font);font-size:15px;fill:var(--ink);text-anchor:middle}
+.terms{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
+.terms label{flex:1;min-width:120px;font-size:14px;color:var(--soft)}
+.terms input{width:100%;margin-top:4px;padding:10px 12px;font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:2.5px solid var(--ink);border-radius:12px}
+.terms input:focus-visible{outline:3px solid var(--fill);outline-offset:1px}
+.query{font-size:clamp(20px,3.2vw,26px);text-align:center;padding:14px 12px;background:var(--panel);border-radius:14px;overflow-wrap:anywhere}
+.expl{color:var(--soft);margin:12px 0 0;min-height:3.2em}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.chips button{font:inherit;font-size:15px;color:var(--ink);background:none;border:2px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.chips button:hover{border-color:var(--ink)}
+.chips button:focus-visible{outline:3px solid var(--fill);outline-offset:2px}
+h2{font-size:22px;margin:0 0 4px;font-weight:800}
+.count{color:var(--soft);margin:0 0 14px;font-size:15px}
+ul.docs{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.docs li{padding:10px 14px;border:2px solid var(--line);border-radius:12px;font-size:16px;transition:opacity .2s,background .2s}
+.docs li.yes{border-color:var(--fill);background:var(--panel)}
+.docs li.no{opacity:.38}
+mark{background:var(--hit);color:inherit;border-radius:4px;padding:0 2px}
+.tips{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+@media (max-width:820px){.tips{grid-template-columns:1fr;gap:20px}}
+.tips h3{font-size:18px;margin:0 0 4px}
+.tips p{margin:0 0 8px;color:var(--soft);font-size:16px}
+code{display:inline-block;font-family:var(--font);font-weight:600;background:var(--panel);padding:4px 10px;border-radius:8px;font-size:16px;overflow-wrap:anywhere}
+.note{margin-top:28px;font-size:14px;color:var(--soft)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.lang{display:flex;gap:6px;justify-content:flex-end;margin-bottom:12px}
+.lang button{font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:none;border:2px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
+.lang button[aria-pressed=true]{border-color:var(--ink);background:var(--fill);color:#4d0033}
+.lang button:focus-visible{outline:3px solid var(--fill);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang" role="group" aria-label="Språk / Language">
+    <button data-lang="sv" aria-pressed="true">Svenska</button>
+    <button data-lang="en" aria-pressed="false">English</button>
+  </div>
+  <h1 data-i18n="h1"></h1>
+  <p class="lede" data-i18n="lede"></p>
+
+  <div class="grid">
+    <section>
+      <div class="ops" role="radiogroup" data-aria="opsAria">
+        <label><input type="radio" name="op" value="AND" checked><span>AND</span></label>
+        <label><input type="radio" name="op" value="OR"><span>OR</span></label>
+        <label><input type="radio" name="op" value="NOT"><span>NOT</span></label>
+      </div>
+      <div id="venn" role="img"></div>
+      <div class="terms">
+        <label><span data-i18n="t1"></span><input id="t0" value="stroke" autocomplete="off"></label>
+        <label><span data-i18n="t2"></span><input id="t1" value="depression" autocomplete="off"></label>
+      </div>
+      <div class="query" id="query" aria-live="polite"></div>
+      <p class="expl" id="expl"></p>
+      <div class="chips" data-aria="chipsAria">
+        <button data-ex="AND|stroke|depression|">stroke AND depression</button>
+        <button data-ex="OR|cancer|neoplasms|">cancer OR neoplasms</button>
+        <button data-ex="NOT|animals|rats|">animals NOT rats</button>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h2"></h2>
+      <p class="count" id="count"></p>
+      <ul class="docs" id="docs"></ul>
+    </section>
+  </div>
+
+  <div class="tips">
+    <div><h3 data-i18n="k1h"></h3><p data-i18n="k1p"></p><code>"cerebral infarction"</code></div>
+    <div><h3 data-i18n="k2h"></h3><p data-i18n="k2p"></p><code>(stroke OR "cerebral infarction") AND depression</code></div>
+    <div><h3 data-i18n="k3h"></h3><p data-i18n="k3p"></p><code>depress*</code></div>
+  </div>
+  <p class="note" data-i18n="note"></p>
+</div>
+
+<script>
+var DOCS=[
+"Depression after stroke: a prospective cohort",
+"Stroke rehabilitation outcomes in elderly patients",
+"Antidepressants in major depression: a meta-analysis",
+"Cancer survivors and risk of depression",
+"Neoplasms of the colon: screening strategies",
+"Tumors in rats exposed to chemical agents",
+"Behaviour of rats in maze learning tasks",
+"Social behaviour in primates and other animals",
+"Tumors of the pituitary gland in adults",
+"Animals in hospital therapy: effect on stroke patients",
+"Rats as an animal model of post-stroke depression",
+"Cancer incidence in Sweden 2020",
+"Migratory animals and climate change",
+"Brain tumors and cognitive decline"
+];
+var T={
+sv:{
+ title:"Booleska operatorer – prova själv",
+ h1:"Booleska operatorer",
+ lede:"Med AND, OR och NOT styr du hur en databassökning kombinerar sökord. Välj operator, ändra orden och se hur sökningen förändras.",
+ opsAria:"Operator", chipsAria:"Exempel",
+ t1:"Sökord 1", t2:"Sökord 2", t3:"Sökord 3",
+ h2:"Träffar i exempeldatabasen",
+ k1h:"Fraser", k1p:"Citationstecken håller ihop ord som hör ihop.",
+ k2h:"Parenteser", k2p:"Gruppera synonymer först, kombinera sedan med AND.",
+ k3h:"Trunkering", k3p:"Asterisk ersätter ordslut och ger flera böjningsformer.",
+ note:"Syntaxen skiljer sig något mellan databaser. Kontrollera hjälpsidan för den du söker i. Träffarna ovan är påhittade exempel som matchas på ord i titeln.",
+ AND:"Alla ord måste finnas med. AND smalnar av sökningen och ger färre, mer träffsäkra resultat.",
+ OR:"Minst ett av orden räcker. OR breddar sökningen och passar bra för synonymer.",
+ NOT:"Första ordet ska finnas men inte det andra. Använd NOT sparsamt – du kan utesluta träffar som faktiskt är relevanta.",
+ empty:"Skriv ett sökord",
+ none:"Skriv minst ett sökord för att se träffar.",
+ count:function(n,m){return n+" av "+m+" poster matchar"},
+ vAND:"Venndiagram: området där båda orden överlappar är markerat",
+ vOR:"Venndiagram: alla områden är markerade",
+ vNOT:"Venndiagram: bara första ordets område utan överlappet är markerat"
+},
+en:{
+ title:"Boolean operators – try it yourself",
+ h1:"Boolean operators",
+ lede:"AND, OR and NOT control how a database search combines keywords. Pick an operator, change the words and see how the search changes.",
+ opsAria:"Operator", chipsAria:"Examples",
+ t1:"Keyword 1", t2:"Keyword 2", t3:"Keyword 3",
+ h2:"Hits in the example database",
+ k1h:"Phrases", k1p:"Quotation marks keep words that belong together.",
+ k2h:"Parentheses", k2p:"Group synonyms first, then combine with AND.",
+ k3h:"Truncation", k3p:"An asterisk replaces word endings and finds several forms of a word.",
+ note:"Syntax differs somewhat between databases, so check the help page of the one you search in. The hits above are made-up examples matched on words in the title.",
+ AND:"All words must be present. AND narrows the search and gives fewer, more precise results.",
+ OR:"At least one of the words is enough. OR broadens the search and works well for synonyms.",
+ NOT:"The first word must be present but not the second. Use NOT sparingly – you may exclude records that are actually relevant.",
+ empty:"Enter a keyword",
+ none:"Enter at least one keyword to see hits.",
+ count:function(n,m){return n+" of "+m+" records match"},
+ vAND:"Venn diagram: the area where both words overlap is highlighted",
+ vOR:"Venn diagram: all areas are highlighted",
+ vNOT:"Venn diagram: only the first word's area without the overlap is highlighted"
+}};
+var lang='sv';
+var $=function(i){return document.getElementById(i)};
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function reEsc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function trunc(s){return s.length>16?s.slice(0,15)+'…':s}
+function getOp(){return document.querySelector('input[name=op]:checked').value}
+function terms(op){
+  var n=2, a=[];
+  for(var i=0;i<n;i++)a.push($('t'+i).value.trim());
+  return a;
+}
+function drawVenn(op,t){
+  var s='';
+  {
+    var ax=150,bx=250,r2=85,y=125;
+    s+='<svg viewBox="0 0 400 260" aria-hidden="true"><defs>';
+    s+='<clipPath id="ca"><circle cx="'+ax+'" cy="'+y+'" r="'+r2+'"/></clipPath>';
+    s+='<mask id="mb"><rect width="400" height="260" fill="#fff"/><circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="#000"/></mask></defs>';
+    if(op==='OR')s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)"/><circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)"/>';
+    else if(op==='AND')s+='<circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)" clip-path="url(#ca)"/>';
+    else s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)" mask="url(#mb)"/>';
+    s+='<circle class="circ" cx="'+ax+'" cy="'+y+'" r="'+r2+'"/><circle class="circ" cx="'+bx+'" cy="'+y+'" r="'+r2+'"/>';
+    s+='<text class="vl" x="'+ax+'" y="236">'+esc(trunc(t[0]))+'</text><text class="vl" x="'+bx+'" y="236">'+esc(trunc(t[1]))+'</text>';
+    s+='</svg>';
+  }
+  $('venn').innerHTML=s;
+  $('venn').setAttribute('aria-label',T[lang]['v'+op]);
+}
+function matches(op,t,text){
+  var low=text.toLowerCase(), has=function(w){return w&&low.indexOf(w.toLowerCase())>-1};
+  var filled=t.filter(Boolean);
+  if(!filled.length)return false;
+  if(op==='AND')return filled.every(has);
+  if(op==='OR')return filled.some(has);
+  return !!t[0]&&has(t[0])&&!(t[1]&&has(t[1]));
+}
+function update(){
+  var L=T[lang], op=getOp(), t=terms(op);
+  drawVenn(op,t);
+  var filled=t.filter(Boolean);
+  var q=filled.map(function(w){return /\s/.test(w)?'"'+esc(w)+'"':esc(w)});
+  $('query').innerHTML=q.length?q.join(' <span class="op">'+op+'</span> '):L.empty;
+  $('expl').textContent=L[op];
+  var re=filled.length?new RegExp('('+filled.map(function(w){return reEsc(esc(w))}).join('|')+')','gi'):null;
+  var n=0,html='';
+  DOCS.forEach(function(d){
+    var m=matches(op,t,d);
+    if(m)n++;
+    var text=esc(d);
+    if(re&&m)text=text.replace(re,'<mark>$1</mark>');
+    html+='<li class="'+(m?'yes':'no')+'">'+text+'</li>';
+  });
+  $('docs').innerHTML=html;
+  $('count').textContent=filled.length?L.count(n,DOCS.length):L.none;
+}
+function applyLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.title=T[l].title;
+  document.querySelectorAll('[data-i18n]').forEach(function(e){e.textContent=T[l][e.dataset.i18n]});
+  document.querySelectorAll('[data-aria]').forEach(function(e){e.setAttribute('aria-label',T[l][e.dataset.aria])});
+  document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});
+  try{localStorage.setItem('bool-lang',l)}catch(e){}
+  update();
+}
+document.querySelectorAll('input[name=op]').forEach(function(r){r.addEventListener('change',update)});
+['t0','t1'].forEach(function(id){$(id).addEventListener('input',update)});
+document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){applyLang(b.dataset.lang)})});
+document.querySelectorAll('[data-ex]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var p=b.dataset.ex.split('|');
+    document.querySelector('input[name=op][value='+p[0]+']').checked=true;
+    $('t0').value=p[1];$('t1').value=p[2];
+    update();
+  });
+});
+var start='sv';
+try{var sv=localStorage.getItem('bool-lang');if(sv==='sv'||sv==='en')start=sv;else if(navigator.language&&navigator.language.slice(0,2)!=='sv')start='en'}catch(e){}
+applyLang(start);
+</script>
+</body>
+</html>
