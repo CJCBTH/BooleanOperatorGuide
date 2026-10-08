@@ -82,6 +82,32 @@ code{display:inline-block;font-family:var(--font);font-weight:600;background:var
 .show input:focus-visible+span{outline:3px solid var(--fill);outline-offset:2px}
 .h-expl .expl,.h-chips .chips,.h-docs .results,.h-tips .tips,.h-tips .note{display:none}
 .h-docs .grid{grid-template-columns:minmax(0,560px)}
+/* airy, centered layout */
+body{line-height:1.6}
+.wrap{max-width:760px;padding:40px 24px 112px;text-align:center}
+.lang{justify-content:center;margin-bottom:48px}
+h1{margin:0 0 20px}
+.lede{margin:0 auto 48px;max-width:52ch}
+.sel{margin:0 auto 28px;text-align:left}
+.show{justify-content:center;margin:0 0 72px;gap:10px}
+.grid{display:block}
+.grid>section+section{margin-top:72px}
+.ops{max-width:420px;margin:0 auto 28px;gap:12px}
+svg{margin:0 auto 20px;max-height:320px}
+.terms{max-width:520px;margin:0 auto 28px;gap:16px;text-align:left}
+.query{max-width:520px;margin:0 auto;padding:20px 16px}
+.expl{max-width:50ch;margin:24px auto 0;min-height:0}
+.chips{justify-content:center;margin-top:32px;gap:12px}
+.results{text-align:left}
+.results h2,.results .count{text-align:center}
+.results .count{margin-bottom:24px}
+.docs{gap:12px}
+.docs li{padding:14px 18px}
+.tips{margin-top:96px;gap:40px;text-align:center}
+.tips h3{margin-bottom:8px}
+.tips p{margin-bottom:14px}
+.note{max-width:56ch;margin:56px auto 0}
+.h-docs .grid{display:block}
 </style>
 </head>
 <body>
