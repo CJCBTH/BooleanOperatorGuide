@@ -9,20 +9,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#ffffff; --ink:#4d0033; --soft:#7a5570; --fill:#ff8870; --line:#e9d9e3; --panel:#fbf4f8; --hit:#ffd9d1;
+  --bg:#ffffff; --ink:#333333; --soft:#5c5c5c; --line:#d8d6d9; --panel:#f4f3f4; --fill:#055064; --on:#ffffff; --hit:rgba(5,80,100,.16);
   --font:"Kumbh Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#250019;--ink:#fbe6f1;--soft:#c9a3bb;--line:#4a2a40;--panel:#33102a;--hit:#6b2f2a}
+  :root:not([data-theme="light"]){--bg:#333333;--ink:#f4f3f4;--soft:#c4c2c5;--line:#555355;--panel:#3f3e3f;--fill:#5bb3c9;--on:#1a1a1a;--hit:rgba(91,179,201,.28)}
 }
-:root[data-theme="dark"]{--bg:#250019;--ink:#fbe6f1;--soft:#c9a3bb;--line:#4a2a40;--panel:#33102a;--hit:#6b2f2a}
+:root[data-theme="dark"]{--bg:#333333;--ink:#f4f3f4;--soft:#c4c2c5;--line:#555355;--panel:#3f3e3f;--fill:#5bb3c9;--on:#1a1a1a;--hit:rgba(91,179,201,.28)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5}
 .wrap{max-width:1040px;margin:0 auto;padding:32px 20px 56px}
-h1{font-size:clamp(30px,5vw,48px);line-height:1.1;margin:0 0 12px;font-weight:800;letter-spacing:-.01em}
+h1{color:var(--fill);font-size:clamp(30px,5vw,48px);line-height:1.1;margin:0 0 12px;font-weight:800;letter-spacing:-.01em}
 .lede{max-width:60ch;color:var(--soft);margin:0 0 32px}
 b,.op{font-weight:800}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
@@ -31,7 +31,7 @@ b,.op{font-weight:800}
 .ops label{flex:1;min-width:84px}
 .ops input{position:absolute;opacity:0}
 .ops span{display:block;text-align:center;padding:10px 12px;border:2.5px solid var(--ink);border-radius:999px;font-weight:800;cursor:pointer;transition:background .15s}
-.ops input:checked+span{background:var(--fill);color:#4d0033}
+.ops input:checked+span{background:var(--fill);color:var(--on)}
 .ops input:focus-visible+span{outline:3px solid var(--fill);outline-offset:2px}
 svg{width:100%;height:auto;display:block;max-height:300px}
 .circ{fill:none;stroke:var(--ink);stroke-width:5}
@@ -40,6 +40,7 @@ svg{width:100%;height:auto;display:block;max-height:300px}
 .terms label{flex:1;min-width:120px;font-size:14px;color:var(--soft)}
 .terms input{width:100%;margin-top:4px;padding:10px 12px;font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:2.5px solid var(--ink);border-radius:12px}
 .terms input:focus-visible{outline:3px solid var(--fill);outline-offset:1px}
+.query .op{color:var(--fill)}
 .query{font-size:clamp(20px,3.2vw,26px);text-align:center;padding:14px 12px;background:var(--panel);border-radius:14px;overflow-wrap:anywhere}
 .expl{color:var(--soft);margin:12px 0 0;min-height:3.2em}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
@@ -62,8 +63,25 @@ code{display:inline-block;font-family:var(--font);font-weight:600;background:var
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 .lang{display:flex;gap:6px;justify-content:flex-end;margin-bottom:12px}
 .lang button{font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:none;border:2px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
-.lang button[aria-pressed=true]{border-color:var(--ink);background:var(--fill);color:#4d0033}
+.lang button[aria-pressed=true]{border-color:var(--ink);background:var(--fill);color:var(--on)}
 .lang button:focus-visible{outline:3px solid var(--fill);outline-offset:2px}
+.pick{font-size:14px;color:var(--soft);margin:0 0 8px}
+.subjects{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
+.subjects button{font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:none;border:2.5px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer;text-align:left}
+.subjects button:hover{border-color:var(--ink)}
+.subjects button[aria-pressed=true]{border-color:var(--ink);background:var(--fill);color:var(--on)}
+.subjects button:focus-visible{outline:3px solid var(--fill);outline-offset:2px}
+.sel{display:block;max-width:440px;margin:0 0 32px;font-size:14px;color:var(--soft)}
+.sel select{display:block;width:100%;margin-top:4px;padding:11px 12px;font:inherit;font-size:17px;font-weight:600;color:var(--ink);background:var(--bg);border:2.5px solid var(--ink);border-radius:12px;cursor:pointer}
+.sel select:focus-visible{outline:3px solid var(--fill);outline-offset:1px}
+.show{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-12px 0 32px;font-size:14px;color:var(--soft)}
+.show label{cursor:pointer}
+.show input{position:absolute;opacity:0}
+.show label span{display:inline-block;padding:5px 14px;border:2px solid var(--line);border-radius:999px;font-weight:600;color:var(--ink)}
+.show input:checked+span{border-color:var(--fill);background:var(--fill);color:var(--on)}
+.show input:focus-visible+span{outline:3px solid var(--fill);outline-offset:2px}
+.h-expl .expl,.h-chips .chips,.h-docs .results,.h-tips .tips,.h-tips .note{display:none}
+.h-docs .grid{grid-template-columns:minmax(0,560px)}
 </style>
 </head>
 <body>
@@ -75,6 +93,16 @@ code{display:inline-block;font-family:var(--font);font-weight:600;background:var
   <h1 data-i18n="h1"></h1>
   <p class="lede" data-i18n="lede"></p>
 
+  <label class="sel"><span data-i18n="pick"></span><select id="subjects"></select></label>
+
+  <div class="show" role="group" data-aria="showLbl">
+    <span data-i18n="showLbl"></span>
+    <label><input type="checkbox" data-tog="expl" checked><span data-i18n="tgExpl"></span></label>
+    <label><input type="checkbox" data-tog="chips" checked><span data-i18n="tgChips"></span></label>
+    <label><input type="checkbox" data-tog="docs" checked><span data-i18n="tgDocs"></span></label>
+    <label><input type="checkbox" data-tog="tips" checked><span data-i18n="tgTips"></span></label>
+  </div>
+
   <div class="grid">
     <section>
       <div class="ops" role="radiogroup" data-aria="opsAria">
@@ -84,19 +112,15 @@ code{display:inline-block;font-family:var(--font);font-weight:600;background:var
       </div>
       <div id="venn" role="img"></div>
       <div class="terms">
-        <label><span data-i18n="t1"></span><input id="t0" value="stroke" autocomplete="off"></label>
-        <label><span data-i18n="t2"></span><input id="t1" value="depression" autocomplete="off"></label>
+        <label><span data-i18n="t1"></span><input id="t0" autocomplete="off"></label>
+        <label><span data-i18n="t2"></span><input id="t1" autocomplete="off"></label>
       </div>
       <div class="query" id="query" aria-live="polite"></div>
       <p class="expl" id="expl"></p>
-      <div class="chips" data-aria="chipsAria">
-        <button data-ex="AND|stroke|depression|">stroke AND depression</button>
-        <button data-ex="OR|cancer|neoplasms|">cancer OR neoplasms</button>
-        <button data-ex="NOT|animals|rats|">animals NOT rats</button>
-      </div>
+      <div class="chips" id="chips" data-aria="chipsAria"></div>
     </section>
 
-    <section>
+    <section class="results">
       <h2 data-i18n="h2"></h2>
       <p class="count" id="count"></p>
       <ul class="docs" id="docs"></ul>
@@ -104,42 +128,49 @@ code{display:inline-block;font-family:var(--font);font-weight:600;background:var
   </div>
 
   <div class="tips">
-    <div><h3 data-i18n="k1h"></h3><p data-i18n="k1p"></p><code>"cerebral infarction"</code></div>
-    <div><h3 data-i18n="k2h"></h3><p data-i18n="k2p"></p><code>(stroke OR "cerebral infarction") AND depression</code></div>
-    <div><h3 data-i18n="k3h"></h3><p data-i18n="k3p"></p><code>depress*</code></div>
+    <div><h3 data-i18n="k1h"></h3><p data-i18n="k1p"></p><code>"machine learning"</code></div>
+    <div><h3 data-i18n="k2h"></h3><p data-i18n="k2p"></p><code>(game OR gaming) AND testing</code></div>
+    <div><h3 data-i18n="k3h"></h3><p data-i18n="k3p"></p><code>develop*</code></div>
   </div>
   <p class="note" data-i18n="note"></p>
 </div>
 
 <script>
-var DOCS=[
-"Depression after stroke: a prospective cohort",
-"Stroke rehabilitation outcomes in elderly patients",
-"Antidepressants in major depression: a meta-analysis",
-"Cancer survivors and risk of depression",
-"Neoplasms of the colon: screening strategies",
-"Tumors in rats exposed to chemical agents",
-"Behaviour of rats in maze learning tasks",
-"Social behaviour in primates and other animals",
-"Tumors of the pituitary gland in adults",
-"Animals in hospital therapy: effect on stroke patients",
-"Rats as an animal model of post-stroke depression",
-"Cancer incidence in Sweden 2020",
-"Migratory animals and climate change",
-"Brain tumors and cognitive decline"
+var S=[
+{sv:"Spel- och programvaruteknik",en:"Game and Software Engineering",
+ ex:[["AND","game","testing"],["OR","unity","unreal"],["NOT","software","agile"]],
+ docs:["Automated testing in agile software projects","Procedural level generation for video games","Technical debt in large-scale software systems","Game engine architecture and performance optimization","Machine learning for automated game testing","Testing strategies in agile game studios","Continuous integration practices in open source projects","Mobile game development with Unity","Rendering performance in Unreal Engine 5","Code review and software quality in startups"]},
+{sv:"Digitala medier och spelteknologi",en:"Digital media and gaming technology",
+ ex:[["AND","virtual","games"],["OR","virtual","augmented"],["NOT","games","virtual"]],
+ docs:["Virtual reality and immersion in interactive storytelling","Augmented reality applications in education","Audio design for virtual reality games","Locomotion in virtual reality games","Esports audience engagement on streaming platforms","Motion capture techniques for character animation","Interaction design for mobile games","Accessibility in digital games for visually impaired players","Social media influencers and brand communication","Gamification of learning in higher education"]},
+{sv:"Strategiskt ledarskap för hållbarhet",en:"Strategic leadership for sustainability",
+ ex:[["AND","leadership","sustainability"],["OR","circular","renewable"],["NOT","leadership","ethical"]],
+ docs:["Leadership for sustainability in public organizations","Strategic leadership and sustainability in SMEs","Circular economy business models in manufacturing","Stakeholder engagement and corporate social responsibility","Sustainable supply chain management","Change management in sustainability transitions","Renewable energy policy and leadership","Sustainability reporting and ESG metrics","Ethical leadership and organizational culture","Systems thinking for sustainable development goals"]},
+{sv:"Teknik",en:"Engineering",
+ ex:[["AND","monitoring","structural"],["OR","5G","IoT"],["NOT","energy","wind"]],
+ docs:["Finite element analysis of composite materials","Wireless sensor networks for structural monitoring","Structural health monitoring of bridges","Control systems for autonomous vehicles","Energy efficiency in electrical power systems","Signal processing for radar applications","Machine learning in fault detection for wind turbines","Embedded systems design for IoT devices","Telecommunication networks and 5G performance","Wind energy and grid integration"]},
+{sv:"Hälsa, vård och hälsoteknik",en:"Health, care and health technology",
+ ex:[["AND","stroke","depression"],["OR","elderly","older"],["NOT","patient","hospitals"]],
+ docs:["Depression after stroke: a prospective cohort","Post-stroke depression and cognitive outcomes","Stroke rehabilitation with virtual reality","Telemedicine and remote patient monitoring","Wearable sensors for elderly fall detection","Home care technology for older adults","Nurse workload and patient safety in hospitals","Digital health interventions for diabetes self-management","Artificial intelligence in medical image analysis","Patient privacy in electronic health records"]},
+{sv:"Industriell ekonomi och management",en:"Industrial economics and management",
+ ex:[["AND","innovation","management"],["OR","startup","entrepreneurship"],["NOT","manufacturing","small"]],
+ docs:["Lean production and operational efficiency","Project management in product development","Innovation management and open innovation","Innovation management in small manufacturing firms","Cost accounting in small manufacturing firms","Supply chain risk and resilience","Quality management and customer satisfaction","Entrepreneurship and venture growth","Digital transformation of manufacturing companies","Lean startup methods and innovation"]},
+{sv:"Samhällsplanering",en:"Spatial planning",
+ ex:[["AND","urban","climate"],["OR","housing","transport"],["NOT","urban","climate"]],
+ docs:["Urban densification and public transport","Urban planning for climate resilience","Climate change adaptation in urban areas","Green infrastructure and urban biodiversity","Housing policy and urban segregation","Participation in municipal planning processes","Land use change and flood risk","Sustainable mobility and cycling in cities","Rural development and regional planning","Geographic information systems in urban analysis"]}
 ];
 var T={
 sv:{
  title:"Booleska operatorer – prova själv",
  h1:"Booleska operatorer",
- lede:"Med AND, OR och NOT styr du hur en databassökning kombinerar sökord. Välj operator, ändra orden och se hur sökningen förändras.",
- opsAria:"Operator", chipsAria:"Exempel",
- t1:"Sökord 1", t2:"Sökord 2", t3:"Sökord 3",
+ lede:"Med AND, OR och NOT styr du hur en databassökning kombinerar sökord. Välj ett ämne, välj operator, ändra orden och se hur sökningen förändras.",
+ pick:"Välj ämne", showLbl:"Visa", tgExpl:"Förklaring", tgChips:"Exempel", tgDocs:"Träfflista", tgTips:"Söktips", opsAria:"Operator", chipsAria:"Exempel",
+ t1:"Sökord 1", t2:"Sökord 2",
  h2:"Träffar i exempeldatabasen",
  k1h:"Fraser", k1p:"Citationstecken håller ihop ord som hör ihop.",
  k2h:"Parenteser", k2p:"Gruppera synonymer först, kombinera sedan med AND.",
  k3h:"Trunkering", k3p:"Asterisk ersätter ordslut och ger flera böjningsformer.",
- note:"Syntaxen skiljer sig något mellan databaser. Kontrollera hjälpsidan för den du söker i. Träffarna ovan är påhittade exempel som matchas på ord i titeln.",
+ note:"Ämnena motsvarar ämnesguiderna vid BTH:s bibliotek. Syntaxen skiljer sig något mellan databaser, så kontrollera hjälpsidan för den du söker i. Träffarna är påhittade exempel som matchas på ord i titeln.",
  AND:"Alla ord måste finnas med. AND smalnar av sökningen och ger färre, mer träffsäkra resultat.",
  OR:"Minst ett av orden räcker. OR breddar sökningen och passar bra för synonymer.",
  NOT:"Första ordet ska finnas men inte det andra. Använd NOT sparsamt – du kan utesluta träffar som faktiskt är relevanta.",
@@ -147,20 +178,20 @@ sv:{
  none:"Skriv minst ett sökord för att se träffar.",
  count:function(n,m){return n+" av "+m+" poster matchar"},
  vAND:"Venndiagram: området där båda orden överlappar är markerat",
- vOR:"Venndiagram: alla områden är markerade",
+ vOR:"Venndiagram: båda områdena är markerade",
  vNOT:"Venndiagram: bara första ordets område utan överlappet är markerat"
 },
 en:{
  title:"Boolean operators – try it yourself",
  h1:"Boolean operators",
- lede:"AND, OR and NOT control how a database search combines keywords. Pick an operator, change the words and see how the search changes.",
- opsAria:"Operator", chipsAria:"Examples",
- t1:"Keyword 1", t2:"Keyword 2", t3:"Keyword 3",
+ lede:"AND, OR and NOT control how a database search combines keywords. Pick a subject, pick an operator, change the words and see how the search changes.",
+ pick:"Choose a subject", showLbl:"Show", tgExpl:"Explanation", tgChips:"Examples", tgDocs:"Hit list", tgTips:"Search tips", opsAria:"Operator", chipsAria:"Examples",
+ t1:"Keyword 1", t2:"Keyword 2",
  h2:"Hits in the example database",
  k1h:"Phrases", k1p:"Quotation marks keep words that belong together.",
  k2h:"Parentheses", k2p:"Group synonyms first, then combine with AND.",
  k3h:"Truncation", k3p:"An asterisk replaces word endings and finds several forms of a word.",
- note:"Syntax differs somewhat between databases, so check the help page of the one you search in. The hits above are made-up examples matched on words in the title.",
+ note:"The subjects match the subject guides at the BTH library. Syntax differs somewhat between databases, so check the help page of the one you search in. The hits are made-up examples matched on words in the title.",
  AND:"All words must be present. AND narrows the search and gives fewer, more precise results.",
  OR:"At least one of the words is enough. OR broadens the search and works well for synonyms.",
  NOT:"The first word must be present but not the second. Use NOT sparingly – you may exclude records that are actually relevant.",
@@ -168,34 +199,26 @@ en:{
  none:"Enter at least one keyword to see hits.",
  count:function(n,m){return n+" of "+m+" records match"},
  vAND:"Venn diagram: the area where both words overlap is highlighted",
- vOR:"Venn diagram: all areas are highlighted",
+ vOR:"Venn diagram: both areas are highlighted",
  vNOT:"Venn diagram: only the first word's area without the overlap is highlighted"
 }};
-var lang='sv';
+var lang='sv', subj=0;
 var $=function(i){return document.getElementById(i)};
 function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function reEsc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
 function trunc(s){return s.length>16?s.slice(0,15)+'…':s}
 function getOp(){return document.querySelector('input[name=op]:checked').value}
-function terms(op){
-  var n=2, a=[];
-  for(var i=0;i<n;i++)a.push($('t'+i).value.trim());
-  return a;
-}
+function terms(){return [$('t0').value.trim(),$('t1').value.trim()]}
 function drawVenn(op,t){
-  var s='';
-  {
-    var ax=150,bx=250,r2=85,y=125;
-    s+='<svg viewBox="0 0 400 260" aria-hidden="true"><defs>';
-    s+='<clipPath id="ca"><circle cx="'+ax+'" cy="'+y+'" r="'+r2+'"/></clipPath>';
-    s+='<mask id="mb"><rect width="400" height="260" fill="#fff"/><circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="#000"/></mask></defs>';
-    if(op==='OR')s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)"/><circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)"/>';
-    else if(op==='AND')s+='<circle cx="'+bx+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)" clip-path="url(#ca)"/>';
-    else s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r2+'" fill="var(--fill)" mask="url(#mb)"/>';
-    s+='<circle class="circ" cx="'+ax+'" cy="'+y+'" r="'+r2+'"/><circle class="circ" cx="'+bx+'" cy="'+y+'" r="'+r2+'"/>';
-    s+='<text class="vl" x="'+ax+'" y="236">'+esc(trunc(t[0]))+'</text><text class="vl" x="'+bx+'" y="236">'+esc(trunc(t[1]))+'</text>';
-    s+='</svg>';
-  }
+  var ax=150,bx=250,r=85,y=125,f=' fill="var(--fill)"',s='';
+  s+='<svg viewBox="0 0 400 260" aria-hidden="true"><defs>';
+  s+='<clipPath id="ca"><circle cx="'+ax+'" cy="'+y+'" r="'+r+'"/></clipPath>';
+  s+='<mask id="mb"><rect x="0" y="0" width="400" height="260" fill="#fff"/><circle cx="'+bx+'" cy="'+y+'" r="'+r+'" fill="#000"/></mask></defs>';
+  if(op==='OR')s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r+'"'+f+'/><circle cx="'+bx+'" cy="'+y+'" r="'+r+'"'+f+'/>';
+  else if(op==='AND')s+='<circle cx="'+bx+'" cy="'+y+'" r="'+r+'"'+f+' clip-path="url(#ca)"/>';
+  else s+='<circle cx="'+ax+'" cy="'+y+'" r="'+r+'"'+f+' mask="url(#mb)"/>';
+  s+='<circle class="circ" cx="'+ax+'" cy="'+y+'" r="'+r+'"/><circle class="circ" cx="'+bx+'" cy="'+y+'" r="'+r+'"/>';
+  s+='<text class="vl" x="'+ax+'" y="236">'+esc(trunc(t[0]))+'</text><text class="vl" x="'+bx+'" y="236">'+esc(trunc(t[1]))+'</text></svg>';
   $('venn').innerHTML=s;
   $('venn').setAttribute('aria-label',T[lang]['v'+op]);
 }
@@ -208,7 +231,7 @@ function matches(op,t,text){
   return !!t[0]&&has(t[0])&&!(t[1]&&has(t[1]));
 }
 function update(){
-  var L=T[lang], op=getOp(), t=terms(op);
+  var L=T[lang], op=getOp(), t=terms(), docs=S[subj].docs;
   drawVenn(op,t);
   var filled=t.filter(Boolean);
   var q=filled.map(function(w){return /\s/.test(w)?'"'+esc(w)+'"':esc(w)});
@@ -216,7 +239,7 @@ function update(){
   $('expl').textContent=L[op];
   var re=filled.length?new RegExp('('+filled.map(function(w){return reEsc(esc(w))}).join('|')+')','gi'):null;
   var n=0,html='';
-  DOCS.forEach(function(d){
+  docs.forEach(function(d){
     var m=matches(op,t,d);
     if(m)n++;
     var text=esc(d);
@@ -224,7 +247,33 @@ function update(){
     html+='<li class="'+(m?'yes':'no')+'">'+text+'</li>';
   });
   $('docs').innerHTML=html;
-  $('count').textContent=filled.length?L.count(n,DOCS.length):L.none;
+  $('count').textContent=filled.length?L.count(n,docs.length):L.none;
+}
+function setExample(e){
+  document.querySelector('input[name=op][value='+e[0]+']').checked=true;
+  $('t0').value=e[1];$('t1').value=e[2];
+  update();
+}
+function buildChips(){
+  var c=$('chips');c.innerHTML='';
+  S[subj].ex.forEach(function(e){
+    var b=document.createElement('button');
+    b.textContent=e[1]+' '+e[0]+' '+e[2];
+    b.addEventListener('click',function(){setExample(e)});
+    c.appendChild(b);
+  });
+}
+function buildSubjects(){
+  var c=$('subjects');c.innerHTML='';
+  S.forEach(function(sj,i){
+    var o=document.createElement('option');
+    o.value=i;o.textContent=sj[lang];
+    c.appendChild(o);
+  });
+  c.value=subj;
+}
+function setSubject(i){
+  subj=i;buildChips();setExample(S[i].ex[0]);
 }
 function applyLang(l){
   lang=l;
@@ -234,21 +283,32 @@ function applyLang(l){
   document.querySelectorAll('[data-aria]').forEach(function(e){e.setAttribute('aria-label',T[l][e.dataset.aria])});
   document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});
   try{localStorage.setItem('bool-lang',l)}catch(e){}
+  buildSubjects();
   update();
 }
 document.querySelectorAll('input[name=op]').forEach(function(r){r.addEventListener('change',update)});
 ['t0','t1'].forEach(function(id){$(id).addEventListener('input',update)});
 document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){applyLang(b.dataset.lang)})});
-document.querySelectorAll('[data-ex]').forEach(function(b){
-  b.addEventListener('click',function(){
-    var p=b.dataset.ex.split('|');
-    document.querySelector('input[name=op][value='+p[0]+']').checked=true;
-    $('t0').value=p[1];$('t1').value=p[2];
-    update();
+$('subjects').addEventListener('change',function(){setSubject(parseInt(this.value,10))});
+var HID={};
+try{HID=JSON.parse(localStorage.getItem('bool-hide')||'{}')||{}}catch(e){HID={}}
+function applyHide(){
+  var w=document.querySelector('.wrap');
+  ['expl','chips','docs','tips'].forEach(function(k){w.classList.toggle('h-'+k,!!HID[k])});
+}
+document.querySelectorAll('[data-tog]').forEach(function(c){
+  c.checked=!HID[c.dataset.tog];
+  c.addEventListener('change',function(){
+    HID[c.dataset.tog]=!c.checked;
+    try{localStorage.setItem('bool-hide',JSON.stringify(HID))}catch(e){}
+    applyHide();
   });
 });
+applyHide();
 var start='sv';
 try{var sv=localStorage.getItem('bool-lang');if(sv==='sv'||sv==='en')start=sv;else if(navigator.language&&navigator.language.slice(0,2)!=='sv')start='en'}catch(e){}
+buildChips();
+setExample(S[0].ex[0]);
 applyLang(start);
 </script>
 </body>
